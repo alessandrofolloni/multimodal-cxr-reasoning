@@ -1,0 +1,41 @@
+# Data (troppo grande per git)
+data/
+*.csv
+*.jpg
+*.png
+*.dcm
+
+# Model checkpoints
+outputs/checkpoints/
+*.pth
+*.pt
+*.ckpt
+
+# Logs
+outputs/logs/
+*.log
+wandb/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
