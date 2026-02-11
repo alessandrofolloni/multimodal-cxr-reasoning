@@ -1,0 +1,111 @@
+{
+  "No Finding": {
+    "auc": 0.9270945220193341,
+    "accuracy": 0.8504273504273504,
+    "precision": 0.5205479452054794,
+    "recall": 1.0,
+    "f1": 0.6846846846846847,
+    "support": 38
+  },
+  "Enlarged Cardiomediastinum": {
+    "auc": 1.0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 109
+  },
+  "Cardiomegaly": {
+    "auc": 1.0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 68
+  },
+  "Lung Opacity": {
+    "auc": 0.9756760728982952,
+    "accuracy": 0.9188034188034188,
+    "precision": 0.9147286821705426,
+    "recall": 0.9365079365079365,
+    "f1": 0.9254901960784312,
+    "support": 126
+  },
+  "Lung Lesion": {
+    "auc": 0.5836909871244635,
+    "accuracy": 0.9957264957264957,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "support": 1
+  },
+  "Edema": {
+    "auc": 0.8542034097589652,
+    "accuracy": 0.8418803418803419,
+    "precision": 1.0,
+    "recall": 0.17777777777777778,
+    "f1": 0.3018867924528302,
+    "support": 45
+  },
+  "Consolidation": {
+    "auc": 0.8285843509724107,
+    "accuracy": 0.8803418803418803,
+    "precision": 1.0,
+    "recall": 0.15151515151515152,
+    "f1": 0.2631578947368421,
+    "support": 33
+  },
+  "Pneumonia": {
+    "auc": 0.7560840707964602,
+    "accuracy": 0.9658119658119658,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "support": 8
+  },
+  "Atelectasis": {
+    "auc": 0.7263798701298702,
+    "accuracy": 0.7478632478632479,
+    "precision": 1.0,
+    "recall": 0.2625,
+    "f1": 0.4158415841584159,
+    "support": 80
+  },
+  "Pneumothorax": {
+    "auc": 0.9225663716814159,
+    "accuracy": 0.9914529914529915,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.8571428571428571,
+    "support": 8
+  },
+  "Pleural Effusion": {
+    "auc": 0.7977477880060774,
+    "accuracy": 0.7564102564102564,
+    "precision": 0.8571428571428571,
+    "recall": 0.1791044776119403,
+    "f1": 0.2962962962962963,
+    "support": 67
+  },
+  "Pleural Other": {
+    "auc": 0.9914163090128756,
+    "accuracy": 0.9957264957264957,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "support": 1
+  },
+  "Support Devices": {
+    "auc": 0.6675252042092868,
+    "accuracy": 0.5769230769230769,
+    "precision": 0.5307692307692308,
+    "recall": 0.6448598130841121,
+    "f1": 0.5822784810126582,
+    "support": 107
+  },
+  "OVERALL": {
+    "mean_auc": 0.8485360735853427,
+    "median_auc": 0.8542034097589652,
+    "std_auc": 0.13111970554574856
+  }
+}
