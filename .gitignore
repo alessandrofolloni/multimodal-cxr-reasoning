@@ -5,6 +5,11 @@ data/
 *.png
 *.dcm
 
+data/chexpert/
+data/processed/*.csv
+*.jpg
+*.png
+
 # Model checkpoints
 outputs/checkpoints/
 *.pth
@@ -24,6 +29,15 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+
+# Models
+outputs/checkpoints/*.pth
+outputs/checkpoints/*.pt
+
+# Python
+__pycache__/
+*.pyc
+.venv/
 
 # Environment
 .env

@@ -189,55 +189,121 @@ class CXRDemo:
         }
     
     def visualize_predictions(self, results, save_path=None):
-        """Visualize image with predictions."""
-        fig = plt.figure(figsize=(16, 6))
+        """Visualize image with predictions - FIXED OVERLAP."""
+        # Larger figure with better spacing
+        fig = plt.figure(figsize=(20, 7))
         
-        # Image
-        ax1 = plt.subplot(1, 3, 1)
+        # Create 3 separate subplots with clear boundaries
+        ax1 = plt.subplot(1, 3, 1)  # Image
+        ax2 = plt.subplot(1, 3, 2)  # Clinical note
+        ax3 = plt.subplot(1, 3, 3)  # Predictions
+        
+        # ========== IMAGE (Left) ==========
         ax1.imshow(results['image'], cmap='gray')
-        ax1.set_title('Chest X-Ray', fontsize=14, fontweight='bold')
+        ax1.set_title('Chest X-Ray', fontsize=16, fontweight='bold', pad=20)
         ax1.axis('off')
         
-        # Clinical Note
-        ax2 = plt.subplot(1, 3, 2)
-        ax2.text(0.05, 0.95, 'Clinical Context:', 
-                fontsize=12, fontweight='bold', va='top')
-        ax2.text(0.05, 0.85, results['clinical_note'], 
-                fontsize=10, va='top', wrap=True)
+        # ========== CLINICAL NOTE (Center) ==========
+        ax2.axis('off')
         ax2.set_xlim(0, 1)
         ax2.set_ylim(0, 1)
-        ax2.axis('off')
         
-        # Top Predictions
-        ax3 = plt.subplot(1, 3, 3)
+        # Title at top
+        ax2.text(0.5, 0.92, 'Clinical Context', 
+                fontsize=15, fontweight='bold', ha='center', va='top',
+                bbox=dict(boxstyle='round,pad=0.6', facecolor='#e8f4f8', 
+                        edgecolor='#2980b9', linewidth=2))
         
-        # Get top 10 predictions
-        top_preds = results['predictions'][:10]
+        # Wrap text
+        note_text = results['clinical_note']
+        max_chars = 40
+        words = note_text.split()
+        lines = []
+        current_line = []
+        current_length = 0
+        
+        for word in words:
+            if current_length + len(word) + 1 <= max_chars:
+                current_line.append(word)
+                current_length += len(word) + 1
+            else:
+                lines.append(' '.join(current_line))
+                current_line = [word]
+                current_length = len(word)
+        if current_line:
+            lines.append(' '.join(current_line))
+        
+        wrapped_text = '\n\n'.join(lines)  # Double newline for spacing
+        
+        # Clinical note text box (lower position to avoid overlap)
+        ax2.text(0.5, 0.70, wrapped_text, 
+                fontsize=11, ha='center', va='top', 
+                bbox=dict(boxstyle='round,pad=1.0', facecolor='white', 
+                        edgecolor='#95a5a6', linewidth=1.5),
+                multialignment='center')
+        
+        # ========== PREDICTIONS (Right) ==========
+        # Get top 8 predictions
+        top_preds = results['predictions'][:8]
         
         y_pos = np.arange(len(top_preds))
         probs = [p['probability'] for p in top_preds]
         names = [p['pathology'] for p in top_preds]
-        colors = ['#d62728' if p > 0.5 else '#1f77b4' for p in probs]
+        colors = ['#e74c3c' if p > 0.5 else '#3498db' for p in probs]
         
-        bars = ax3.barh(y_pos, probs, color=colors, alpha=0.7)
+        # Horizontal bars
+        bars = ax3.barh(y_pos, probs, height=0.7, color=colors, 
+                        alpha=0.8, edgecolor='black', linewidth=1)
+        
+        # Labels
         ax3.set_yticks(y_pos)
-        ax3.set_yticklabels(names, fontsize=9)
-        ax3.set_xlabel('Probability', fontsize=11)
-        ax3.set_title('Model Predictions', fontsize=12, fontweight='bold')
-        ax3.set_xlim(0, 1)
-        ax3.axvline(x=0.5, color='black', linestyle='--', alpha=0.3, linewidth=1)
+        ax3.set_yticklabels(names, fontsize=12, fontweight='500')
+        ax3.set_xlabel('Probability', fontsize=13, fontweight='bold', labelpad=10)
+        ax3.set_title('Model Predictions', fontsize=16, fontweight='bold', pad=20)
+        
+        # X-axis
+        ax3.set_xlim(0, 1.05)
+        ax3.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
+        ax3.set_xticklabels(['0.0', '0.25', '0.5', '0.75', '1.0'], fontsize=11)
+        
+        # Threshold line
+        ax3.axvline(x=0.5, color='black', linestyle='--', alpha=0.6, linewidth=2)
+        
+        # Invert y-axis
         ax3.invert_yaxis()
-        ax3.grid(axis='x', alpha=0.3)
+        
+        # Grid
+        ax3.grid(axis='x', alpha=0.25, linestyle=':', linewidth=1)
+        ax3.set_axisbelow(True)
         
         # Add probability values
         for i, (bar, prob) in enumerate(zip(bars, probs)):
-            ax3.text(prob + 0.02, i, f'{prob:.3f}', 
-                    va='center', fontsize=8)
+            if prob > 0.2:
+                # Inside bar
+                ax3.text(prob - 0.04, i, f'{prob:.3f}', 
+                        va='center', ha='right', fontsize=10, 
+                        color='white', fontweight='bold')
+            else:
+                # Outside bar
+                ax3.text(prob + 0.03, i, f'{prob:.3f}', 
+                        va='center', ha='left', fontsize=10, 
+                        color='black', fontweight='bold')
         
-        plt.tight_layout()
+        # Legend
+        from matplotlib.patches import Patch
+        legend_elements = [
+            Patch(facecolor='#e74c3c', alpha=0.8, edgecolor='black', label='Positive (>0.5)'),
+            Patch(facecolor='#3498db', alpha=0.8, edgecolor='black', label='Negative (≤0.5)')
+        ]
+        ax3.legend(handles=legend_elements, loc='lower right', 
+                fontsize=10, framealpha=0.95, edgecolor='black')
+        
+        # Adjust spacing between subplots
+        plt.subplots_adjust(left=0.05, right=0.98, top=0.92, bottom=0.08, wspace=0.35)
         
         if save_path:
-            plt.savefig(save_path, dpi=150, bbox_inches='tight')
+            plt.savefig(save_path, dpi=200, bbox_inches='tight', 
+                    facecolor='white', edgecolor='none')
             print(f"✅ Visualization saved to {save_path}")
         
         plt.show()
