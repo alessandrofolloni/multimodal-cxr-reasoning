@@ -46,10 +46,6 @@ Output: "Pneumonia: 92%" (context-aware reasoning)
 ---
 
 ## 🏗️ Architecture
-Perfetto! Ti preparo prima il README completo e poi ti spiego le opzioni per il training serio.
-
-📄 README.md Completo e Professionale
-markdown# 🏥 Multimodal Clinical Reasoning for Chest X-Rays
 
 <p align="center">
   <a href="#features">Features</a> •
